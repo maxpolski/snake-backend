@@ -131,6 +131,13 @@
     "@types/koa-compose" "*"
     "@types/node" "*"
 
+"@types/koa__router@^8.0.3":
+  version "8.0.3"
+  resolved "https://registry.npmjs.org/@types/koa__router/-/koa__router-8.0.3.tgz#f6a9ea3428d1025401f5fc21c47c18395ac44cdc"
+  integrity sha512-eS8K49z1x6OaW1ha61kRksVo42L5DWdQUA3kVpH1Kz6TuKBlG0ri42ELA4zSh+xg+6fAqjfuWA7bfNvwVMNXQA==
+  dependencies:
+    "@types/koa" "*"
+
 "@types/mime@*":
   version "2.0.3"
   resolved "https://registry.npmjs.org/@types/mime/-/mime-2.0.3.tgz#c893b73721db73699943bfc3653b1deb7faa4a3a"
@@ -533,6 +540,11 @@ dot-prop@^5.2.0:
   integrity sha512-QM8q3zDe58hqUqjraQOmzZ1LIH9SWQJTlEKCH4kJ2oQvLZk7RbQXvtDM2XEq3fwkV9CCvvH4LA0AV+ogFsBM2Q==
   dependencies:
     is-obj "^2.0.0"
+
+dotenv@^8.2.0:
+  version "8.2.0"
+  resolved "https://registry.npmjs.org/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
+  integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
 
 duplexer3@^0.1.4:
   version "0.1.4"
