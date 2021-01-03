@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "rm -rf dist && tsc",
-    "start": "npm build && node dist/index.js",
+    "start": "node dist/index.js",
     "dev": "npm build && tsc -w | nodemon dist/index.js",
     "populateData": "cp data/weights.json dist/data/weights.json && node dist/src/scripts/import-data.js"
   },
