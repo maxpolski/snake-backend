@@ -6,8 +6,8 @@
   "scripts": {
     "build": "rm -rf dist && tsc",
     "start": "NODE_ENV=PROD node dist/index.js",
-    "dev": "npm build && tsc -w | nodemon dist/index.js",
-    "populateData": "cp data/weights.json dist/data/weights.json && node dist/src/scripts/import-data.js"
+    "dev": "cp -r src/static dist/src/static && npm build && tsc -w | nodemon dist/index.js",
+    "populateData": "cp -r src/static dist/src/static && cp data/weights.json dist/data/weights.json && node dist/src/scripts/import-data.js"
   },
   "engines": {
     "node": "^12"
@@ -20,11 +20,15 @@
     "koa-json": "^2.0.2",
     "koa-logger": "^3.2.1",
     "koa-router": "^10.0.0",
+    "koa-send": "^5.0.1",
+    "koa-static": "^5.0.0",
     "mongoose": "^5.11.9"
   },
   "devDependencies": {
     "@types/koa": "^2.11.6",
     "@types/koa-router": "^7.4.1",
+    "@types/koa-send": "^4.1.2",
+    "@types/koa-static": "^4.0.1",
     "@types/koa__router": "^8.0.3",
     "@types/node": "^14.14.19",
     "nodemon": "^2.0.6",
