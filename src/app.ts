@@ -2,13 +2,17 @@ import Koa from 'koa';
 import Router from '@koa/router';
 import serve from 'koa-static';
 import send from 'koa-send';
+import cors from '@koa/cors';
+import bodyparser from 'koa-bodyparser';
 
 import { mongooseConnection } from './services/db';
-import { getClasses } from './controllers/class';
+import { getClasses, updateClassWeights } from './controllers/class';
 
 export const app = new Koa();
 const router = new Router();
 
+app.use(cors());
+app.use(bodyparser());
 app.use(mongooseConnection);
 
 router.get('/classes', async (ctx) => {
@@ -21,8 +25,18 @@ router.get('/classes', async (ctx) => {
   }
 });
 
+router.patch('/classes/bulk', async (ctx) => {
+  await Promise.all(
+    ctx.request.body.classes.map((c) => updateClassWeights(c.name, c.weights))
+  );
+
+  ctx.status = 200;
+});
+
 router.patch('/classes/:class', async (ctx) => {
-  console.log('patch class', ctx.params.class);
+  await updateClassWeights(ctx.params.class, ctx.request.body.weights);
+
+  ctx.status = 200;
 });
 
 router.post('/classes', async (ctx) => {
@@ -30,8 +44,7 @@ router.post('/classes', async (ctx) => {
 });
 
 router.get('/', async (ctx) => {
-  console.log('here')
-  ctx.set('Content-Type', 'text/html')
+  ctx.set('Content-Type', 'text/html');
   await send(ctx, 'dist/src/static/index.html');
 });
 
