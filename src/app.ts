@@ -27,6 +27,7 @@ router.get('/classes', async (ctx) => {
 
 router.patch('/classes/bulk', async (ctx) => {
   await Promise.all(
+    // @ts-ignore
     ctx.request.body.classes.map((c) => updateClassWeights(c.name, c.weights))
   );
 
@@ -34,6 +35,7 @@ router.patch('/classes/bulk', async (ctx) => {
 });
 
 router.patch('/classes/:class', async (ctx) => {
+  // @ts-ignore
   await updateClassWeights(ctx.params.class, ctx.request.body.weights);
 
   ctx.status = 200;
