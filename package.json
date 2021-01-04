@@ -4,7 +4,7 @@
   "main": "index.ts",
   "license": "MIT",
   "scripts": {
-    "build": "rm -rf dist && tsc",
+    "build": "rm -rf dist && tsc && cp -r src/static dist/src/static",
     "start": "NODE_ENV=PROD node dist/index.js",
     "dev": "cp -r src/static dist/src/static && npm build && tsc -w | nodemon dist/index.js",
     "populateData": "cp -r src/static dist/src/static && cp data/weights.json dist/data/weights.json && node dist/src/scripts/import-data.js"
