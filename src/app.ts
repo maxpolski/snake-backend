@@ -6,7 +6,7 @@ import cors from '@koa/cors';
 import bodyparser from 'koa-bodyparser';
 
 import { mongooseConnection } from './services/db';
-import { getClasses, updateClassWeights } from './controllers/class';
+import { getRecords, createRecord, findRecord } from './controllers/record';
 
 export const app = new Koa();
 const router = new Router();
@@ -15,9 +15,9 @@ app.use(cors());
 app.use(bodyparser());
 app.use(mongooseConnection);
 
-router.get('/classes', async (ctx) => {
+router.get('/records', async (ctx) => {
   try {
-    const classes = await getClasses();
+    const classes = await getRecords();
     ctx.set('Content-Type', 'application/json');
     ctx.body = JSON.stringify(classes);
   } catch (err) {
@@ -25,24 +25,41 @@ router.get('/classes', async (ctx) => {
   }
 });
 
-router.patch('/classes/bulk', async (ctx) => {
-  await Promise.all(
-    // @ts-ignore
-    ctx.request.body.classes.map((c) => updateClassWeights(c.name, c.weights))
-  );
+// router.patch('/classes/bulk', async (ctx) => {
+//   await Promise.all(
+//     // @ts-ignore
+//     ctx.request.body.classes.map((c) => updateClassWeights(c.name, c.weights))
+//   );
 
-  ctx.status = 200;
-});
+//   ctx.status = 200;
+// });
 
-router.patch('/classes/:class', async (ctx) => {
+// router.patch('/classes/:class', async (ctx) => {
+//   // @ts-ignore
+//   await updateClassWeights(ctx.params.class, ctx.request.body.weights);
+
+//   ctx.status = 200;
+// });
+
+router.post('/records', async (ctx) => {
   // @ts-ignore
-  await updateClassWeights(ctx.params.class, ctx.request.body.weights);
+  console.log('post class', ctx.request.body);
+  // @ts-ignore
+  const { name, record } = ctx.request.body as { name: string; record: string };
 
-  ctx.status = 200;
-});
+  if (name && Number.isInteger(record)) {
+    const existingRecord = await findRecord({
+      user: name,
+      record: record,
+    });
+    if (!existingRecord) {
+      await createRecord(name, Number.parseInt(record));
+    }
+    ctx.status = 200;
+    return;
+  }
 
-router.post('/classes', async (ctx) => {
-  console.log('post class', ctx.params.class);
+  ctx.status = 500;
 });
 
 router.get('/', async (ctx) => {
